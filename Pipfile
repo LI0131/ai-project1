@@ -12,6 +12,7 @@ training = 'python3 app.py'
 numpy = "*"
 matplotlib = "*"
 pandas = "*"
+sqlalchemy = "*"
 
 [requires]
 python_version = "3.7"
