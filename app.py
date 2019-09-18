@@ -1,7 +1,12 @@
-from model import setup_db, get_rows
+from model import setup_db
+import linear_regression
+
 
 CSV_FILE = './data/housing.csv'
+TARGET = 'median_home_value'
+LEARNING_RATE = 0.0
+
 
 if __name__ == '__main__':
     setup_db(CSV_FILE)
-    get_rows()
+    linear_regression.run()
