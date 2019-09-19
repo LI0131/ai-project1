@@ -4,7 +4,8 @@ import linear_regression
 
 CSV_FILE = './data/housing.csv'
 TARGET = 'median_home_value'
-LEARNING_RATE = 0.0
+LEARNING_RATE = 0.001
+ITERATIONS = 10000
 
 
 if __name__ == '__main__':

@@ -1,53 +1,56 @@
 import sys
 import numpy as np
 from model import DB_ROWS, get_row
-from app import TARGET
+from app import TARGET, LEARNING_RATE, ITERATIONS
 from graphing import draw_scatter
-
-SLOPE=0
-INTERCEPT=0
-
 
 def run():
     for name in DB_ROWS:
+        slope = 0
+        intercept = 0
         row = get_row(name)
-        feature_data, target_data = _scrub_data(row, get_row(TARGET))
-        draw_scatter(name, target_data, feature_data)
-        MSE = _mean_squared_error(
-            len(feature_data), _compute_slope(len(target_data), feature_data, target_data),
-            _compute_intercept(len(target_data), feature_data, target_data), 
-            feature_data, target_data)
-        print(MSE)
+        feature_data, target_data = _scrub_data(row, get_row(TARGET)) if name != 'river_var' else (row, get_row(TARGET))
+
+        for i in range(ITERATIONS):
+            slope, intercept = _gradient_decent(float(len(feature_data)), feature_data, target_data, slope, intercept)
+
+        error = _mean_squared_error(float(len(feature_data)), feature_data, target_data, slope, intercept)
+        print(f'ERROR: {error}\n NAME: {name}')
+        draw_scatter(name, target_data, feature_data, slope, intercept)
+
+def _gradient_decent(size, feature, target, slope, intercept):
+
+    if size <= 0:
+        sys.exit('Size of sample must be greater than 0')
+
+    new_slope = slope - (LEARNING_RATE * _compute_slope(size, feature, target, slope, intercept))
+    new_intercept = intercept - (LEARNING_RATE * _compute_intercept(size, feature, target, slope, intercept))
+    return new_slope, new_intercept
 
 
-def _mean_squared_error(size, slope, intercept, feature, target):
-
-    SLOPE = slope
-    print(f'SLOPE: {SLOPE}')
-    INTERCEPT = intercept
-    print(f'INTERCEPT: {INTERCEPT}')
+def _mean_squared_error(size, feature, target, slope, intercept):
 
     if size <= 0:
         sys.exit('Size of sample must be greater than 0')
 
     total_sum = 0
-    for i in range(size):
-        difference = (SLOPE * target[i] + INTERCEPT) - feature[i]
+    for i in range(len(feature)):
+        difference = (slope * target[i] + intercept) - feature[i]
         total_sum += difference**2
     return total_sum/size
 
 
-def _compute_slope(size, feature, target):
+def _compute_slope(size, feature, target, slope, intercept):
     total_sum = 0
     for i in range(len(feature)):
-        total_sum += -target[i] * (feature[i] - ((SLOPE * target[i]) + INTERCEPT))
+        total_sum += -target[i] * (feature[i] - ((slope * target[i]) + intercept))
     return (2/size) * total_sum
 
 
-def _compute_intercept(size, feature, target):
+def _compute_intercept(size, feature, target, slope, intercept):
     total_sum = 0
     for i in range(len(feature)):
-        total_sum += -(feature[i] - ((SLOPE * target[i]) + INTERCEPT))
+        total_sum += -(feature[i] - ((slope * target[i]) + intercept))
     return (2/size) * total_sum
 
 
