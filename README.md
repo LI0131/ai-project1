@@ -13,3 +13,9 @@ https://medium.com/@Aj.Cheng/linear-regression-by-gradient-decent-bb198724eb2c
 
 ## Running Training ##
 `pipenv run training`
+
+**_or_**
+
+Run the included bash script to see multiple learning rates and iteration values
+
+`bash run.sh`

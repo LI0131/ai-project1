@@ -19,6 +19,7 @@ def run():
         draw_scatter(name, target_data, feature_data, slope, intercept)
 
 def _gradient_decent(size, feature, target, slope, intercept):
+    # update the new slope and intercept using the learning rate
 
     if size <= 0:
         sys.exit('Size of sample must be greater than 0')
@@ -29,6 +30,7 @@ def _gradient_decent(size, feature, target, slope, intercept):
 
 
 def _mean_squared_error(size, feature, target, slope, intercept):
+    # compute the error for the final slope and intercept (computed as sum)
 
     if size <= 0:
         sys.exit('Size of sample must be greater than 0')
@@ -41,6 +43,7 @@ def _mean_squared_error(size, feature, target, slope, intercept):
 
 
 def _compute_slope(size, feature, target, slope, intercept):
+    # use partial derivative wrt slope to update slope
     total_sum = 0
     for i in range(len(feature)):
         total_sum += -target[i] * (feature[i] - ((slope * target[i]) + intercept))
@@ -48,6 +51,7 @@ def _compute_slope(size, feature, target, slope, intercept):
 
 
 def _compute_intercept(size, feature, target, slope, intercept):
+    # use partial derivative wrt intercept to update intercept
     total_sum = 0
     for i in range(len(feature)):
         total_sum += -(feature[i] - ((slope * target[i]) + intercept))
