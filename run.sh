@@ -11,6 +11,7 @@ do
     for ITER in "${ITERATIONS_LIST[@]}"
     do
         echo "Running for LEARNING_RATE: $RATE and ITERATIONS: $ITER"
+        mkdir figures/"${RATE}_${ITER}"
         export ITERATIONS=$ITER
         pipenv run training
     done

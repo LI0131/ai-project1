@@ -1,5 +1,5 @@
 import os
-from model import setup_db
+from model import setup_db, DB_ROWS, get_row
 import linear_regression
 
 
@@ -11,4 +11,9 @@ ITERATIONS = int(os.environ.get('ITERATIONS', '10000'))
 
 if __name__ == '__main__':
     setup_db(CSV_FILE)
-    linear_regression.run()
+    feature = os.getenv('FEATURE')
+    if feature:
+        linear_regression.run(get_row(feature), feature)
+    else:
+        for name in DB_ROWS:
+            linear_regression.run(get_row(name), name)

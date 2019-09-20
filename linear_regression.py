@@ -1,24 +1,23 @@
 import sys
 import numpy as np
-from model import DB_ROWS, get_row
+from model import get_row
 from app import TARGET, LEARNING_RATE, ITERATIONS
 from graphing import draw_scatter
 
-def run():
-    for name in DB_ROWS:
-        slope = 0
-        intercept = 0
-        row = get_row(name)
-        feature_data, target_data = _scrub_data(row, get_row(TARGET)) if name != 'river_var' else (row, get_row(TARGET))
+def run(row, name):
+    slope = 0
+    intercept = 0
+    error_list = []
+    feature_data, target_data = _scrub_data(row, get_row(TARGET)) if name != 'river_var' else (row, get_row(TARGET))
 
-        for i in range(ITERATIONS):
-            slope, intercept = _gradient_decent(float(len(feature_data)), feature_data, target_data, slope, intercept)
-
+    for i in range(ITERATIONS):
+        slope, intercept = _gradient_descent(float(len(feature_data)), feature_data, target_data, slope, intercept)
         error = _mean_squared_error(float(len(feature_data)), feature_data, target_data, slope, intercept)
-        print(f'ERROR: {error}\n NAME: {name}')
-        draw_scatter(name, target_data, feature_data, slope, intercept)
+        error_list.append(error)
+    print(f'ERROR: {error}\n NAME: {name}')
+    draw_scatter(name, target_data, feature_data, slope, intercept)
 
-def _gradient_decent(size, feature, target, slope, intercept):
+def _gradient_descent(size, feature, target, slope, intercept):
     # update the new slope and intercept using the learning rate
 
     if size <= 0:
