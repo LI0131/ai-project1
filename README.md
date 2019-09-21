@@ -12,17 +12,13 @@ https://matplotlib.org/3.1.1/api/_as_gen/matplotlib.pyplot.plot.html
 1. `pip install pipenv`
 2. `pipenv install`
 
-## Running Training ##
-`pipenv run training`
+## Running This Project ##
+This project has the ability to pull variables from the local environment of types `CSV_FILE`, `TARGET`, `LEARNING_RATE`, `ITERATIONS`, and `FEATURE`. If you would like to run one feature against the target variable set that variable using `export TARGET=your_variable`. This is great for quick testing of various learning rates and iterations.
 
-**_or_**
-
-Run the included bash script to see multiple learning rates and iteration values
-
-`bash run.sh`
+To run this project with my defined learning rates and iterations, run `bash run.sh` from inside this directory. This will run through each feature vector, print output to the shell, and save graphs to the `/figures` directory. Read me about this in the section to follow.
 
 ## Graphing ##
-Graph output can be found in the `/figures` directory. This directory contains subdirectories labeled by `{LEARNING_RATE}_{ITERATIONS}`
+Graph output can be found in the `/figures` directory. This directory contains subdirectories labeled by `{FEATURE}_{LEARNING_RATE}_{ITERATIONS}`
 
 ## Analysis ##
 In this section I will discuss the purpose of each function in the `linear_regression.py` module. The other modules (`app.py`, `model.py`, and `graphing.py`) provide supporting roles to the linear_regression functionality. The app.py module starts the application and defines global constants, which are either defined in the local environment or within the script itself. It also initializes the database and runs the linear regression algorithm. The `model.py` class is responsible for converting the provided `.csv` file into rows in a sqlite database. The rows can be pulled individually using the get_row() function. The graphing.py module is used to draw the scatter plot of points -- of the form (feature value, target value) -- and to draw the line of best-fit as derived by the machine learning model.

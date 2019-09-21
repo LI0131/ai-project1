@@ -4,18 +4,25 @@ from model import get_row
 from app import TARGET, LEARNING_RATE, ITERATIONS
 from graphing import draw_scatter
 
+
 def run(row, name):
-    slope = 0
-    intercept = 0
+    slope = np.random.randint(0,1)
+    intercept = np.random.randint(0,1)
     error_list = []
     feature_data, target_data = _scrub_data(row, get_row(TARGET)) if name != 'river_var' else (row, get_row(TARGET))
+
+    drawGraph = int(ITERATIONS / 10)
+    print(f'Graph and Error every {drawGraph} iterations...')
 
     for i in range(ITERATIONS):
         slope, intercept = _gradient_descent(float(len(feature_data)), feature_data, target_data, slope, intercept)
         error = _mean_squared_error(float(len(feature_data)), feature_data, target_data, slope, intercept)
         error_list.append(error)
-    print(f'ERROR: {error}\n NAME: {name}')
-    draw_scatter(name, target_data, feature_data, slope, intercept)
+        if (i % drawGraph == 0):
+            print(f'ERROR: {error}')
+            draw_scatter(name, target_data, feature_data, slope, intercept, i)
+    draw_scatter(name, target_data, feature_data, slope, intercept, ITERATIONS)
+
 
 def _gradient_descent(size, feature, target, slope, intercept):
     # update the new slope and intercept using the learning rate
