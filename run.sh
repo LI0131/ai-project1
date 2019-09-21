@@ -2,6 +2,8 @@
 
 pipenv install
 
+mkdir figures
+
 declare -a DB_ROWS=( 'crime_rate' 'zoned_over_25000' 'business_acres' 'river_var' 'nitric_oxide' \
     'rooms_per_home' 'built_prior_1940' 'distance_to_centers' 'highway_availability' \
     'property_tax' 'student_teacher_ratio' 'ethicity_demo' 'percent_lower_status' \
